@@ -30,7 +30,6 @@ PRFLAGS ?=
 
 # Source files
 LINKER_SCRIPT = LPC1768\\LPC1768.ld
-#CSRCS  = startup_LPC17xx.c $(wildcard *.c)
 CSRCS += main.c
 ASRCS  = 
 CSRCS = $(wildcard *.c)
