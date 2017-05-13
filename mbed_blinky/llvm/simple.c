@@ -2,7 +2,8 @@
 #include "simple.h"
 
 const char* declaredString = "Declared String";
-const char* table[] = {"TableStr1", "TableStr22", "TableStr333"};
+const char* lookup_table[] = {"TableStr1", "TableStr22", "TableStr333"};
+//const char* lookup_table[];
 
 void addOne(int* i)
 {
@@ -22,13 +23,13 @@ void callPrint(void)
 
 void fakeFunc(void)
 {
-	char fakeString[10];
-	tableLookup(fakeString, 0);
+	//char fakeString[10];
+	//tableLookup(fakeString, 0);
 }
 
 void printStuff(char* str)
 {
-	while(str != 0)
+	while(*str != 0)
 	{
 		*str = *str + 1;
 		str++;
@@ -38,10 +39,11 @@ void printStuff(char* str)
 // TODO: this will need to change for real algo
 void tableLookup(char* fill, int index)
 {
-	const char* lookup = table[index];
-	while(lookup != 0)
+	char* lookup = lookup_table[index];
+	while(*lookup != 0)
+	//for(int i = 0; i < 5; i++)
 	{
-		*fill = *lookup;
+		*fill = *lookup;//65 + i;
 		fill++;
 		lookup++;
 	}

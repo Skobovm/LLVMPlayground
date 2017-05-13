@@ -65,7 +65,8 @@ INCLUDE_PATHS += -I../mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM
 
 # Add LLVM Code
 INCLUDE_PATHS += -I../llvm
-OBJECTS += simple.o
+#OBJECTS += simple.o
+OBJECTS += simple_opt.o
 
 LIBRARY_PATHS := -L../mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM 
 LIBRARIES := -l:libmbed.a 

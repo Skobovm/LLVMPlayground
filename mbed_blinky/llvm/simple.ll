@@ -8,7 +8,7 @@ target triple = "thumbv7m-none-none-eabi"
 @.str.1 = private unnamed_addr constant [10 x i8] c"TableStr1\00", align 1
 @.str.2 = private unnamed_addr constant [11 x i8] c"TableStr22\00", align 1
 @.str.3 = private unnamed_addr constant [12 x i8] c"TableStr333\00", align 1
-@table = global [3 x i8*] [i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.1, i32 0, i32 0), i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.2, i32 0, i32 0), i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.3, i32 0, i32 0)], align 4, !dbg !6
+@lookup_table = global [3 x i8*] [i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.1, i32 0, i32 0), i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.2, i32 0, i32 0), i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.3, i32 0, i32 0)], align 4, !dbg !6
 @.str.4 = private unnamed_addr constant [19 x i8] c"Anonymous String 1\00", align 1
 
 ; Function Attrs: noinline nounwind
@@ -51,73 +51,73 @@ entry:
 
 while.cond:                                       ; preds = %while.body, %entry
   %0 = load i8*, i8** %str.addr, align 4, !dbg !47
-  %cmp = icmp ne i8* %0, null, !dbg !48
+  %1 = load i8, i8* %0, align 1, !dbg !48
+  %conv = zext i8 %1 to i32, !dbg !48
+  %cmp = icmp ne i32 %conv, 0, !dbg !49
   br i1 %cmp, label %while.body, label %while.end, !dbg !46
 
 while.body:                                       ; preds = %while.cond
-  %1 = load i8*, i8** %str.addr, align 4, !dbg !49
-  %2 = load i8, i8* %1, align 1, !dbg !51
-  %conv = zext i8 %2 to i32, !dbg !51
-  %add = add nsw i32 %conv, 1, !dbg !52
-  %conv1 = trunc i32 %add to i8, !dbg !51
-  %3 = load i8*, i8** %str.addr, align 4, !dbg !53
-  store i8 %conv1, i8* %3, align 1, !dbg !54
-  %4 = load i8*, i8** %str.addr, align 4, !dbg !55
-  %incdec.ptr = getelementptr inbounds i8, i8* %4, i32 1, !dbg !55
-  store i8* %incdec.ptr, i8** %str.addr, align 4, !dbg !55
-  br label %while.cond, !dbg !46, !llvm.loop !56
+  %2 = load i8*, i8** %str.addr, align 4, !dbg !50
+  %3 = load i8, i8* %2, align 1, !dbg !52
+  %conv2 = zext i8 %3 to i32, !dbg !52
+  %add = add nsw i32 %conv2, 1, !dbg !53
+  %conv3 = trunc i32 %add to i8, !dbg !52
+  %4 = load i8*, i8** %str.addr, align 4, !dbg !54
+  store i8 %conv3, i8* %4, align 1, !dbg !55
+  %5 = load i8*, i8** %str.addr, align 4, !dbg !56
+  %incdec.ptr = getelementptr inbounds i8, i8* %5, i32 1, !dbg !56
+  store i8* %incdec.ptr, i8** %str.addr, align 4, !dbg !56
+  br label %while.cond, !dbg !46, !llvm.loop !57
 
 while.end:                                        ; preds = %while.cond
-  ret void, !dbg !58
+  ret void, !dbg !59
 }
 
 ; Function Attrs: noinline nounwind
-define void @fakeFunc() #0 !dbg !59 {
+define void @fakeFunc() #0 !dbg !60 {
 entry:
-  %fakeString = alloca [10 x i8], align 1
-  call void @llvm.dbg.declare(metadata [10 x i8]* %fakeString, metadata !60, metadata !25), !dbg !64
-  %arraydecay = getelementptr inbounds [10 x i8], [10 x i8]* %fakeString, i32 0, i32 0, !dbg !65
-  call void @tableLookup(i8* %arraydecay, i32 0) #2, !dbg !66
-  ret void, !dbg !67
+  ret void, !dbg !61
 }
 
 ; Function Attrs: noinline nounwind
-define void @tableLookup(i8* %fill, i32 %index) #0 !dbg !68 {
+define void @tableLookup(i8* %fill, i32 %index) #0 !dbg !62 {
 entry:
   %fill.addr = alloca i8*, align 4
   %index.addr = alloca i32, align 4
   %lookup = alloca i8*, align 4
   store i8* %fill, i8** %fill.addr, align 4
-  call void @llvm.dbg.declare(metadata i8** %fill.addr, metadata !71, metadata !25), !dbg !72
+  call void @llvm.dbg.declare(metadata i8** %fill.addr, metadata !65, metadata !25), !dbg !66
   store i32 %index, i32* %index.addr, align 4
-  call void @llvm.dbg.declare(metadata i32* %index.addr, metadata !73, metadata !25), !dbg !74
-  call void @llvm.dbg.declare(metadata i8** %lookup, metadata !75, metadata !25), !dbg !76
-  %0 = load i32, i32* %index.addr, align 4, !dbg !77
-  %arrayidx = getelementptr inbounds [3 x i8*], [3 x i8*]* @table, i32 0, i32 %0, !dbg !78
-  %1 = load i8*, i8** %arrayidx, align 4, !dbg !78
-  store i8* %1, i8** %lookup, align 4, !dbg !76
-  br label %while.cond, !dbg !79
+  call void @llvm.dbg.declare(metadata i32* %index.addr, metadata !67, metadata !25), !dbg !68
+  call void @llvm.dbg.declare(metadata i8** %lookup, metadata !69, metadata !25), !dbg !70
+  %0 = load i32, i32* %index.addr, align 4, !dbg !71
+  %arrayidx = getelementptr inbounds [3 x i8*], [3 x i8*]* @lookup_table, i32 0, i32 %0, !dbg !72
+  %1 = load i8*, i8** %arrayidx, align 4, !dbg !72
+  store i8* %1, i8** %lookup, align 4, !dbg !70
+  br label %while.cond, !dbg !73
 
 while.cond:                                       ; preds = %while.body, %entry
-  %2 = load i8*, i8** %lookup, align 4, !dbg !80
-  %cmp = icmp ne i8* %2, null, !dbg !81
-  br i1 %cmp, label %while.body, label %while.end, !dbg !79
+  %2 = load i8*, i8** %lookup, align 4, !dbg !74
+  %3 = load i8, i8* %2, align 1, !dbg !75
+  %conv = zext i8 %3 to i32, !dbg !75
+  %cmp = icmp ne i32 %conv, 0, !dbg !76
+  br i1 %cmp, label %while.body, label %while.end, !dbg !73
 
 while.body:                                       ; preds = %while.cond
-  %3 = load i8*, i8** %lookup, align 4, !dbg !82
-  %4 = load i8, i8* %3, align 1, !dbg !84
-  %5 = load i8*, i8** %fill.addr, align 4, !dbg !85
-  store i8 %4, i8* %5, align 1, !dbg !86
-  %6 = load i8*, i8** %fill.addr, align 4, !dbg !87
-  %incdec.ptr = getelementptr inbounds i8, i8* %6, i32 1, !dbg !87
-  store i8* %incdec.ptr, i8** %fill.addr, align 4, !dbg !87
-  %7 = load i8*, i8** %lookup, align 4, !dbg !88
-  %incdec.ptr1 = getelementptr inbounds i8, i8* %7, i32 1, !dbg !88
-  store i8* %incdec.ptr1, i8** %lookup, align 4, !dbg !88
-  br label %while.cond, !dbg !79, !llvm.loop !89
+  %4 = load i8*, i8** %lookup, align 4, !dbg !77
+  %5 = load i8, i8* %4, align 1, !dbg !79
+  %6 = load i8*, i8** %fill.addr, align 4, !dbg !80
+  store i8 %5, i8* %6, align 1, !dbg !81
+  %7 = load i8*, i8** %fill.addr, align 4, !dbg !82
+  %incdec.ptr = getelementptr inbounds i8, i8* %7, i32 1, !dbg !82
+  store i8* %incdec.ptr, i8** %fill.addr, align 4, !dbg !82
+  %8 = load i8*, i8** %lookup, align 4, !dbg !83
+  %incdec.ptr2 = getelementptr inbounds i8, i8* %8, i32 1, !dbg !83
+  store i8* %incdec.ptr2, i8** %lookup, align 4, !dbg !83
+  br label %while.cond, !dbg !73, !llvm.loop !84
 
 while.end:                                        ; preds = %while.cond
-  ret void, !dbg !91
+  ret void, !dbg !86
 }
 
 attributes #0 = { noinline nounwind "correctly-rounded-divide-sqrt-fp-math"="false" "disable-tail-calls"="false" "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-jump-tables"="false" "no-nans-fp-math"="false" "no-signed-zeros-fp-math"="false" "no-trapping-math"="false" "stack-protector-buffer-size"="8" "target-cpu"="cortex-m3" "target-features"="+hwdiv,+strict-align" "unsafe-fp-math"="false" "use-soft-float"="false" }
@@ -135,7 +135,7 @@ attributes #2 = { nobuiltin }
 !4 = !{}
 !5 = !{!0, !6}
 !6 = !DIGlobalVariableExpression(var: !7)
-!7 = distinct !DIGlobalVariable(name: "table", scope: !2, file: !3, line: 5, type: !8, isLocal: false, isDefinition: true)
+!7 = distinct !DIGlobalVariable(name: "lookup_table", scope: !2, file: !3, line: 5, type: !8, isLocal: false, isDefinition: true)
 !8 = !DICompositeType(tag: DW_TAG_array_type, baseType: !9, size: 96, elements: !12)
 !9 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !10, size: 32)
 !10 = !DIDerivedType(tag: DW_TAG_const_type, baseType: !11)
@@ -147,76 +147,71 @@ attributes #2 = { nobuiltin }
 !16 = !{i32 1, !"wchar_size", i32 4}
 !17 = !{i32 1, !"min_enum_size", i32 4}
 !18 = !{!"clang version 5.0.0 (trunk)"}
-!19 = distinct !DISubprogram(name: "addOne", scope: !3, file: !3, line: 7, type: !20, isLocal: false, isDefinition: true, scopeLine: 8, flags: DIFlagPrototyped, isOptimized: false, unit: !2, variables: !4)
+!19 = distinct !DISubprogram(name: "addOne", scope: !3, file: !3, line: 8, type: !20, isLocal: false, isDefinition: true, scopeLine: 9, flags: DIFlagPrototyped, isOptimized: false, unit: !2, variables: !4)
 !20 = !DISubroutineType(types: !21)
 !21 = !{null, !22}
 !22 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !23, size: 32)
 !23 = !DIBasicType(name: "int", size: 32, encoding: DW_ATE_signed)
-!24 = !DILocalVariable(name: "i", arg: 1, scope: !19, file: !3, line: 7, type: !22)
+!24 = !DILocalVariable(name: "i", arg: 1, scope: !19, file: !3, line: 8, type: !22)
 !25 = !DIExpression()
-!26 = !DILocation(line: 7, column: 18, scope: !19)
-!27 = !DILocation(line: 9, column: 4, scope: !19)
-!28 = !DILocation(line: 9, column: 6, scope: !19)
-!29 = !DILocation(line: 10, column: 1, scope: !19)
-!30 = distinct !DISubprogram(name: "getConstHWString", scope: !3, file: !3, line: 13, type: !31, isLocal: false, isDefinition: true, scopeLine: 14, flags: DIFlagPrototyped, isOptimized: false, unit: !2, variables: !4)
+!26 = !DILocation(line: 8, column: 18, scope: !19)
+!27 = !DILocation(line: 10, column: 4, scope: !19)
+!28 = !DILocation(line: 10, column: 6, scope: !19)
+!29 = !DILocation(line: 11, column: 1, scope: !19)
+!30 = distinct !DISubprogram(name: "getConstHWString", scope: !3, file: !3, line: 14, type: !31, isLocal: false, isDefinition: true, scopeLine: 15, flags: DIFlagPrototyped, isOptimized: false, unit: !2, variables: !4)
 !31 = !DISubroutineType(types: !32)
 !32 = !{!9}
-!33 = !DILocation(line: 15, column: 9, scope: !30)
-!34 = !DILocation(line: 15, column: 2, scope: !30)
-!35 = distinct !DISubprogram(name: "callPrint", scope: !3, file: !3, line: 18, type: !36, isLocal: false, isDefinition: true, scopeLine: 19, flags: DIFlagPrototyped, isOptimized: false, unit: !2, variables: !4)
+!33 = !DILocation(line: 16, column: 9, scope: !30)
+!34 = !DILocation(line: 16, column: 2, scope: !30)
+!35 = distinct !DISubprogram(name: "callPrint", scope: !3, file: !3, line: 19, type: !36, isLocal: false, isDefinition: true, scopeLine: 20, flags: DIFlagPrototyped, isOptimized: false, unit: !2, variables: !4)
 !36 = !DISubroutineType(types: !37)
 !37 = !{null}
-!38 = !DILocation(line: 20, column: 2, scope: !35)
-!39 = !DILocation(line: 21, column: 1, scope: !35)
-!40 = distinct !DISubprogram(name: "printStuff", scope: !3, file: !3, line: 29, type: !41, isLocal: false, isDefinition: true, scopeLine: 30, flags: DIFlagPrototyped, isOptimized: false, unit: !2, variables: !4)
+!38 = !DILocation(line: 21, column: 2, scope: !35)
+!39 = !DILocation(line: 22, column: 1, scope: !35)
+!40 = distinct !DISubprogram(name: "printStuff", scope: !3, file: !3, line: 30, type: !41, isLocal: false, isDefinition: true, scopeLine: 31, flags: DIFlagPrototyped, isOptimized: false, unit: !2, variables: !4)
 !41 = !DISubroutineType(types: !42)
 !42 = !{null, !43}
 !43 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !11, size: 32)
-!44 = !DILocalVariable(name: "str", arg: 1, scope: !40, file: !3, line: 29, type: !43)
-!45 = !DILocation(line: 29, column: 23, scope: !40)
-!46 = !DILocation(line: 31, column: 2, scope: !40)
-!47 = !DILocation(line: 31, column: 8, scope: !40)
-!48 = !DILocation(line: 31, column: 12, scope: !40)
-!49 = !DILocation(line: 33, column: 11, scope: !50)
-!50 = distinct !DILexicalBlock(scope: !40, file: !3, line: 32, column: 2)
-!51 = !DILocation(line: 33, column: 10, scope: !50)
-!52 = !DILocation(line: 33, column: 15, scope: !50)
-!53 = !DILocation(line: 33, column: 4, scope: !50)
-!54 = !DILocation(line: 33, column: 8, scope: !50)
-!55 = !DILocation(line: 34, column: 6, scope: !50)
-!56 = distinct !{!56, !46, !57}
-!57 = !DILocation(line: 35, column: 2, scope: !40)
-!58 = !DILocation(line: 36, column: 1, scope: !40)
-!59 = distinct !DISubprogram(name: "fakeFunc", scope: !3, file: !3, line: 23, type: !36, isLocal: false, isDefinition: true, scopeLine: 24, flags: DIFlagPrototyped, isOptimized: false, unit: !2, variables: !4)
-!60 = !DILocalVariable(name: "fakeString", scope: !59, file: !3, line: 25, type: !61)
-!61 = !DICompositeType(tag: DW_TAG_array_type, baseType: !11, size: 80, elements: !62)
-!62 = !{!63}
-!63 = !DISubrange(count: 10)
-!64 = !DILocation(line: 25, column: 7, scope: !59)
-!65 = !DILocation(line: 26, column: 14, scope: !59)
-!66 = !DILocation(line: 26, column: 2, scope: !59)
-!67 = !DILocation(line: 27, column: 1, scope: !59)
-!68 = distinct !DISubprogram(name: "tableLookup", scope: !3, file: !3, line: 39, type: !69, isLocal: false, isDefinition: true, scopeLine: 40, flags: DIFlagPrototyped, isOptimized: false, unit: !2, variables: !4)
-!69 = !DISubroutineType(types: !70)
-!70 = !{null, !43, !23}
-!71 = !DILocalVariable(name: "fill", arg: 1, scope: !68, file: !3, line: 39, type: !43)
-!72 = !DILocation(line: 39, column: 24, scope: !68)
-!73 = !DILocalVariable(name: "index", arg: 2, scope: !68, file: !3, line: 39, type: !23)
-!74 = !DILocation(line: 39, column: 34, scope: !68)
-!75 = !DILocalVariable(name: "lookup", scope: !68, file: !3, line: 41, type: !9)
-!76 = !DILocation(line: 41, column: 14, scope: !68)
-!77 = !DILocation(line: 41, column: 29, scope: !68)
-!78 = !DILocation(line: 41, column: 23, scope: !68)
-!79 = !DILocation(line: 42, column: 2, scope: !68)
-!80 = !DILocation(line: 42, column: 8, scope: !68)
-!81 = !DILocation(line: 42, column: 15, scope: !68)
-!82 = !DILocation(line: 44, column: 12, scope: !83)
-!83 = distinct !DILexicalBlock(scope: !68, file: !3, line: 43, column: 2)
-!84 = !DILocation(line: 44, column: 11, scope: !83)
-!85 = !DILocation(line: 44, column: 4, scope: !83)
-!86 = !DILocation(line: 44, column: 9, scope: !83)
-!87 = !DILocation(line: 45, column: 7, scope: !83)
-!88 = !DILocation(line: 46, column: 9, scope: !83)
-!89 = distinct !{!89, !79, !90}
-!90 = !DILocation(line: 47, column: 2, scope: !68)
-!91 = !DILocation(line: 48, column: 1, scope: !68)
+!44 = !DILocalVariable(name: "str", arg: 1, scope: !40, file: !3, line: 30, type: !43)
+!45 = !DILocation(line: 30, column: 23, scope: !40)
+!46 = !DILocation(line: 32, column: 2, scope: !40)
+!47 = !DILocation(line: 32, column: 9, scope: !40)
+!48 = !DILocation(line: 32, column: 8, scope: !40)
+!49 = !DILocation(line: 32, column: 13, scope: !40)
+!50 = !DILocation(line: 34, column: 11, scope: !51)
+!51 = distinct !DILexicalBlock(scope: !40, file: !3, line: 33, column: 2)
+!52 = !DILocation(line: 34, column: 10, scope: !51)
+!53 = !DILocation(line: 34, column: 15, scope: !51)
+!54 = !DILocation(line: 34, column: 4, scope: !51)
+!55 = !DILocation(line: 34, column: 8, scope: !51)
+!56 = !DILocation(line: 35, column: 6, scope: !51)
+!57 = distinct !{!57, !46, !58}
+!58 = !DILocation(line: 36, column: 2, scope: !40)
+!59 = !DILocation(line: 37, column: 1, scope: !40)
+!60 = distinct !DISubprogram(name: "fakeFunc", scope: !3, file: !3, line: 24, type: !36, isLocal: false, isDefinition: true, scopeLine: 25, flags: DIFlagPrototyped, isOptimized: false, unit: !2, variables: !4)
+!61 = !DILocation(line: 28, column: 1, scope: !60)
+!62 = distinct !DISubprogram(name: "tableLookup", scope: !3, file: !3, line: 40, type: !63, isLocal: false, isDefinition: true, scopeLine: 41, flags: DIFlagPrototyped, isOptimized: false, unit: !2, variables: !4)
+!63 = !DISubroutineType(types: !64)
+!64 = !{null, !43, !23}
+!65 = !DILocalVariable(name: "fill", arg: 1, scope: !62, file: !3, line: 40, type: !43)
+!66 = !DILocation(line: 40, column: 24, scope: !62)
+!67 = !DILocalVariable(name: "index", arg: 2, scope: !62, file: !3, line: 40, type: !23)
+!68 = !DILocation(line: 40, column: 34, scope: !62)
+!69 = !DILocalVariable(name: "lookup", scope: !62, file: !3, line: 42, type: !43)
+!70 = !DILocation(line: 42, column: 8, scope: !62)
+!71 = !DILocation(line: 42, column: 30, scope: !62)
+!72 = !DILocation(line: 42, column: 17, scope: !62)
+!73 = !DILocation(line: 43, column: 2, scope: !62)
+!74 = !DILocation(line: 43, column: 9, scope: !62)
+!75 = !DILocation(line: 43, column: 8, scope: !62)
+!76 = !DILocation(line: 43, column: 16, scope: !62)
+!77 = !DILocation(line: 46, column: 12, scope: !78)
+!78 = distinct !DILexicalBlock(scope: !62, file: !3, line: 45, column: 2)
+!79 = !DILocation(line: 46, column: 11, scope: !78)
+!80 = !DILocation(line: 46, column: 4, scope: !78)
+!81 = !DILocation(line: 46, column: 9, scope: !78)
+!82 = !DILocation(line: 47, column: 7, scope: !78)
+!83 = !DILocation(line: 48, column: 9, scope: !78)
+!84 = distinct !{!84, !73, !85}
+!85 = !DILocation(line: 49, column: 2, scope: !62)
+!86 = !DILocation(line: 50, column: 1, scope: !62)
