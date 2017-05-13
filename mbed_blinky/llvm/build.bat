@@ -1,7 +1,12 @@
 @echo off
 ECHO Compiling to bitcode
 
-clang -emit-llvm simple.cpp -c
+@REM clang -emit-llvm simple.cpp -c
+@REM WORKING VERSION clang -emit-llvm simple.c -c 
+clang -emit-llvm simple.c -g -c -std=gnu99 -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -fmessage-length=0 -fno-exceptions -fno-builtin -ffunction-sections -fdata-sections -funsigned-char -MMD -fno-delete-null-pointer-checks -fomit-frame-pointer -mcpu=cortex-m3 -mthumb -target thumbv7-none-none-eabi
+@REM add -Os above for debug info
+
+PAUSE
 
 ECHO Disassembling to human readable format
 llvm-dis simple.bc
@@ -11,3 +16,6 @@ llc -code-model=small -data-sections -relocation-model=pic -march=thumb -mcpu=co
 
 ECHO Copy object one directory up
 copy simple.o ..\simple.o
+
+ECHO Reconstructing C++ IR
+llc -march=cpp -o reconstructed.cpp simple.ll

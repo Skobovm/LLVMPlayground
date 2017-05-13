@@ -1,0 +1,25 @@
+
+simple.o:     file format elf32-littlearm
+
+Contents of section .text:
+ 0000 82b00090 01680131 016002b0 7047c046  .....h.1.`..pG.F
+ 0010 01487844 00687047 02000000 01487844  .HxD.hpG.....HxD
+ 0020 00687047 02000000                    .hpG....        
+Contents of section .ARM.exidx:
+ 0000 00000000 b0b0b080 10000000 b0b0b080  ................
+ 0010 1c000000 b0b0b080                    ........        
+Contents of section .data.retArr:
+ 0000 48656c6c 6f2c2057 6f726c64 2100      Hello, World!.  
+Contents of section .group:
+ 0000 01000000 08000000                    ........        
+Contents of section .rodata.str1.1.??_C@_0BO@DLDEGCFM@I?9do?9not?9get?9linked?9correctly?$AA@:
+ 0000 492d646f 2d6e6f74 2d676574 2d6c696e  I-do-not-get-lin
+ 0010 6b65642d 636f7272 6563746c 7900      ked-correctly.  
+Contents of section .comment:
+ 0000 00636c61 6e672076 65727369 6f6e2035  .clang version 5
+ 0010 2e302e30 20287472 756e6b29 00        .0.0 (trunk).   
+Contents of section .ARM.attributes:
+ 0000 413e0000 00616561 62690001 34000000  A>...aeabi..4...
+ 0010 43322e30 39000563 6f727465 782d6d33  C2.09..cortex-m3
+ 0020 00060a07 4d080009 020e000f 01100111  ....M...........
+ 0030 02140115 01170318 01190122 012601    ...........".&. 

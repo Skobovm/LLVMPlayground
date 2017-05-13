@@ -1,0 +1,199 @@
+
+simple.o:     file format elf32-littlearm
+simple.o
+architecture: arm, flags 0x00000011:
+HAS_RELOC, HAS_SYMS
+start address 0x00000000
+private flags = 5000000: [Version5 EABI]
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000003c  00000000  00000000  00000034  2**2
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+  1 .ARM.exidx    00000018  00000000  00000000  00000070  2**2
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, DATA
+  2 .group        00000008  00000000  00000000  00000128  2**2
+                  CONTENTS, READONLY, EXCLUDE, GROUP, LINK_ONCE_DISCARD
+  3 .rodata.str1.1.??_C@_0BE@LOIBOMCM@Thisstringmightwork?$AA@ 00000014  00000000  00000000  00000088  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  4 .data.mightWork 00000004  00000000  00000000  000000a0  2**3
+                  CONTENTS, ALLOC, LOAD, RELOC, DATA
+  5 .bss.printFunc 00000004  00000000  00000000  000000a8  2**3
+                  ALLOC
+  6 .group        00000008  00000000  00000000  00000130  2**2
+                  CONTENTS, READONLY, EXCLUDE, GROUP, LINK_ONCE_DISCARD
+  7 .rodata.str1.1.??_C@_0N@GCKKGPFP@Good?5enough?6?$AA@ 0000000d  00000000  00000000  000000a8  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  8 .group        00000008  00000000  00000000  00000138  2**2
+                  CONTENTS, READONLY, EXCLUDE, GROUP, LINK_ONCE_DISCARD
+  9 .rodata.str1.1.??_C@_0BG@IJFEJMFI@Thisstringdoesnotwork?$AA@ 00000016  00000000  00000000  000000b5  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 10 .comment      0000001d  00000000  00000000  000000cb  2**0
+                  CONTENTS, READONLY
+ 11 .note.GNU-stack 00000000  00000000  00000000  000000e8  2**0
+                  CONTENTS, READONLY
+ 12 .ARM.attributes 0000003f  00000000  00000000  000000e8  2**0
+                  CONTENTS, READONLY
+SYMBOL TABLE:
+00000000 l    df *ABS*	00000000 simple.c
+00000000 l       .group	00000000 ??_C@_0BE@LOIBOMCM@Thisstringmightwork?$AA@
+00000000 l       .group	00000000 ??_C@_0BG@IJFEJMFI@Thisstringdoesnotwork?$AA@
+00000000 l       .group	00000000 ??_C@_0N@GCKKGPFP@Good?5enough?6?$AA@
+00000000 l     O .bss.printFunc	00000004 printFunc
+00000000 l    d  .text	00000000 .text
+00000000  w    O .rodata.str1.1.??_C@_0BE@LOIBOMCM@Thisstringmightwork?$AA@	00000014 ??_C@_0BE@LOIBOMCM@Thisstringmightwork?$AA@
+00000000  w    O .rodata.str1.1.??_C@_0BG@IJFEJMFI@Thisstringdoesnotwork?$AA@	00000016 ??_C@_0BG@IJFEJMFI@Thisstringdoesnotwork?$AA@
+00000000  w    O .rodata.str1.1.??_C@_0N@GCKKGPFP@Good?5enough?6?$AA@	0000000d ??_C@_0N@GCKKGPFP@Good?5enough?6?$AA@
+00000000         *UND*	00000000 __aeabi_unwind_cpp_pr0
+00000000 g     F .text	00000024 addOne
+00000024 g     F .text	0000000c getConstHWString
+00000000 g     O .data.mightWork	00000004 mightWork
+00000030 g     F .text	0000000c setPrintFunc
+
+
+
+Disassembly of section .text:
+
+00000000 <addOne>:
+   0:	b510      	push	{r4, lr}
+   2:	4604      	mov	r4, r0
+   4:	4805      	ldr	r0, [pc, #20]	; (1c <addOne+0x1c>)
+   6:	4478      	add	r0, pc
+   8:	6801      	ldr	r1, [r0, #0]
+   a:	4805      	ldr	r0, [pc, #20]	; (20 <addOne+0x20>)
+   c:	4478      	add	r0, pc
+   e:	6800      	ldr	r0, [r0, #0]
+  10:	4788      	blx	r1
+  12:	6820      	ldr	r0, [r4, #0]
+  14:	3001      	adds	r0, #1
+  16:	6020      	str	r0, [r4, #0]
+  18:	bd10      	pop	{r4, pc}
+  1a:	46c0      	nop			; (mov r8, r8)
+  1c:	0012      	movs	r2, r2
+			1c: R_ARM_REL32	printFunc
+  1e:	0000      	movs	r0, r0
+  20:	0010      	movs	r0, r2
+			20: R_ARM_GOT_PREL	??_C@_0N@GCKKGPFP@Good?5enough?6?$AA@
+	...
+
+00000024 <getConstHWString>:
+  24:	4801      	ldr	r0, [pc, #4]	; (2c <getConstHWString+0x8>)
+  26:	4478      	add	r0, pc
+  28:	6800      	ldr	r0, [r0, #0]
+  2a:	4770      	bx	lr
+  2c:	00000002 	andeq	r0, r0, r2
+			2c: R_ARM_GOT_PREL	??_C@_0BG@IJFEJMFI@Thisstringdoesnotwork?$AA@
+
+00000030 <setPrintFunc>:
+  30:	4901      	ldr	r1, [pc, #4]	; (38 <setPrintFunc+0x8>)
+  32:	4479      	add	r1, pc
+  34:	6008      	str	r0, [r1, #0]
+  36:	4770      	bx	lr
+  38:	00000002 	andeq	r0, r0, r2
+			38: R_ARM_REL32	printFunc
+
+Disassembly of section .ARM.exidx:
+
+0000003c <.ARM.exidx>:
+  3c:	00000000 	andeq	r0, r0, r0
+			3c: R_ARM_NONE	__aeabi_unwind_cpp_pr0
+			3c: R_ARM_PREL31	.text
+  40:	80b0b0b0 	ldrhthi	fp, [r0], r0
+  44:	00000024 	andeq	r0, r0, r4, lsr #32
+			44: R_ARM_NONE	__aeabi_unwind_cpp_pr0
+			44: R_ARM_PREL31	.text
+  48:	80b0b0b0 	ldrhthi	fp, [r0], r0
+  4c:	00000030 	andeq	r0, r0, r0, lsr r0
+			4c: R_ARM_NONE	__aeabi_unwind_cpp_pr0
+			4c: R_ARM_PREL31	.text
+  50:	80b0b0b0 	ldrhthi	fp, [r0], r0
+
+Disassembly of section .group:
+
+00000000 <??_C@_0BE@LOIBOMCM@Thisstringmightwork?$AA@>:
+   0:	00000001 	andeq	r0, r0, r1
+   4:	00000007 	andeq	r0, r0, r7
+
+Disassembly of section .rodata.str1.1.??_C@_0BE@LOIBOMCM@Thisstringmightwork?$AA@:
+
+00000090 <??_C@_0BE@LOIBOMCM@Thisstringmightwork?$AA@>:
+  90:	73696854 	cmnvc	r9, #84, 16	; 0x540000
+  94:	69727473 	ldmdbvs	r2!, {r0, r1, r4, r5, r6, sl, ip, sp, lr}^
+  98:	696d676e 	stmdbvs	sp!, {r1, r2, r3, r5, r6, r8, r9, sl, sp, lr}^
+  9c:	77746867 	ldrbvc	r6, [r4, -r7, ror #16]!
+  a0:	006b726f 	rsbeq	r7, fp, pc, ror #4
+
+Disassembly of section .data.mightWork:
+
+00000138 <mightWork>:
+ 138:	00000000 	andeq	r0, r0, r0
+			138: R_ARM_ABS32	??_C@_0BE@LOIBOMCM@Thisstringmightwork?$AA@
+
+Disassembly of section .bss.printFunc:
+
+00000000 <printFunc>:
+   0:	00000000 	andeq	r0, r0, r0
+
+Disassembly of section .group:
+
+00000000 <??_C@_0N@GCKKGPFP@Good?5enough?6?$AA@>:
+   0:	00000001 	andeq	r0, r0, r1
+   4:	0000000c 	andeq	r0, r0, ip
+
+Disassembly of section .rodata.str1.1.??_C@_0N@GCKKGPFP@Good?5enough?6?$AA@:
+
+00000274 <??_C@_0N@GCKKGPFP@Good?5enough?6?$AA@>:
+ 274:	646f6f47 	strbtvs	r6, [pc], #-3911	; 27c <??_C@_0N@GCKKGPFP@Good?5enough?6?$AA@+0x8>
+ 278:	6f6e6520 	svcvs	0x006e6520
+ 27c:	0a686775 	beq	1a1a058 <setPrintFunc+0x1a1a028>
+	...
+
+Disassembly of section .group:
+
+00000000 <??_C@_0BG@IJFEJMFI@Thisstringdoesnotwork?$AA@>:
+   0:	00000001 	andeq	r0, r0, r1
+   4:	0000000e 	andeq	r0, r0, lr
+
+Disassembly of section .rodata.str1.1.??_C@_0BG@IJFEJMFI@Thisstringdoesnotwork?$AA@:
+
+000004f5 <??_C@_0BG@IJFEJMFI@Thisstringdoesnotwork?$AA@>:
+ 4f5:	73696854 	cmnvc	r9, #84, 16	; 0x540000
+ 4f9:	69727473 	ldmdbvs	r2!, {r0, r1, r4, r5, r6, sl, ip, sp, lr}^
+ 4fd:	6f64676e 	svcvs	0x0064676e
+ 501:	6f6e7365 	svcvs	0x006e7365
+ 505:	726f7774 	rsbvc	r7, pc, #116, 14	; 0x1d00000
+ 509:	Address 0x00000509 is out of bounds.
+
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	616c6300 	cmnvs	ip, r0, lsl #6
+   4:	7620676e 	strtvc	r6, [r0], -lr, ror #14
+   8:	69737265 	ldmdbvs	r3!, {r0, r2, r5, r6, r9, ip, sp, lr}^
+   c:	35206e6f 	strcc	r6, [r0, #-3695]!	; 0xe6f
+  10:	302e302e 	eorcc	r3, lr, lr, lsr #32
+  14:	72742820 	rsbsvc	r2, r4, #32, 16	; 0x200000
+  18:	296b6e75 	stmdbcs	fp!, {r0, r2, r4, r5, r6, r9, sl, fp, sp, lr}^
+	...
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00003e41 	andeq	r3, r0, r1, asr #28
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	00000034 	andeq	r0, r0, r4, lsr r0
+  10:	302e3243 	eorcc	r3, lr, r3, asr #4
+  14:	63050039 	movwvs	r0, #20537	; 0x5039
+  18:	6574726f 	ldrbvs	r7, [r4, #-623]!	; 0x26f
+  1c:	336d2d78 	cmncc	sp, #120, 26	; 0x1e00
+  20:	070a0600 	streq	r0, [sl, -r0, lsl #12]
+  24:	0900084d 	stmdbeq	r0, {r0, r2, r3, r6, fp}
+  28:	0f000e02 	svceq	0x00000e02
+  2c:	11011001 	tstne	r1, r1
+  30:	15011402 	strne	r1, [r1, #-1026]	; 0x402
+  34:	18031701 	stmdane	r3, {r0, r8, r9, sl, ip}
+  38:	22011901 	andcs	r1, r1, #16384	; 0x4000
+  3c:	Address 0x0000003c is out of bounds.
+

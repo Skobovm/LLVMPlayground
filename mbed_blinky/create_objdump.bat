@@ -1,0 +1,1 @@
+arm-none-eabi-objdump -a -f -p -h -x -D -S -g BUILD\mbed_blinky.elf > objdump.txt

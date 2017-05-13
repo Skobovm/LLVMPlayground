@@ -1,22 +1,19 @@
 #include <stdio.h>
 #include "simple.h"
 
-extern "C"
+const char* mightWork = "Thisstringmightwork";
+
+void addOne(int* i)
 {
-	char retArr[] = "Hello, World!";
+	(*i)++;
+}
 
-	void addOne(int* i)
-	{
-		(*i)++;
-	}
+// char* getHWString(void)
+// {
+	// return retArr;
+// }
 
-	char* getHWString(void)
-	{
-		return retArr;
-	}
-
-	const char* getConstHWString(void)
-	{
-		return "I-do-not-get-linked-correctly";
-	}
+const char* getConstHWString(void)
+{
+	return "Thisstringdoesnotwork";
 }

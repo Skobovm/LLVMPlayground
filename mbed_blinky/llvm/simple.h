@@ -1,8 +1,18 @@
-#include <stdio.h>
+//#include <stdio.h>
 
+#ifdef  __cplusplus
 extern "C"
 {
+#endif
+	//extern const char* mightWork;
 	void addOne(int* i);
-	char* getHWString(void);
+	//char* getHWString(void);
 	const char* getConstHWString(void);
+	void callPrint(void);
+	void fakeFunc(void);
+	void printStuff(char* str);
+	void tableLookup(char* fill, int index);
+
+#ifdef  __cplusplus
 }
+#endif

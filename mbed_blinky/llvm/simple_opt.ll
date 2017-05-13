@@ -37,6 +37,7 @@ entry:
 ; Function Attrs: noinline nounwind
 define void @callPrint() #0 !dbg !35 {
 entry:
+  call void @fakeFunc(), !dbg !38
   call void @printStuff(i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.4, i32 0, i32 0)) #2, !dbg !38
   ret void, !dbg !39
 }
