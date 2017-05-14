@@ -12,6 +12,7 @@ extern "C"
 	void fakeFunc(void);
 	void printStuff(char* str);
 	void tableLookup(char* fill, int index);
+	void tableLookupSpace(char* fill, int words[], int wordCount);
 
 #ifdef  __cplusplus
 }

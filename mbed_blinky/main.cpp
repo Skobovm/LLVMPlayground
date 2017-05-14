@@ -8,6 +8,7 @@ DigitalOut myled(LED1);
 extern "C"
 {
 	//const char* table[] = {"TableStr1", "TableStr22", "TableStr333"};
+	extern char* lookup_table[];
 	
 	void printFunc(const char* val)
 	{
@@ -19,6 +20,17 @@ extern "C"
 		return "Thisstringwillwork";
 	}
 	
+	void tableLookupImpl(char* fill, int index)
+	{
+		char* lookup = lookup_table[index];
+		while(*lookup != 0)
+		//for(int i = 0; i < 5; i++)
+		{
+			*fill = *lookup;//65 + i;
+			fill++;
+			lookup++;
+		}
+	}
 }
 
 int main() {
