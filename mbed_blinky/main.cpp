@@ -8,7 +8,8 @@ DigitalOut myled(LED1);
 extern "C"
 {
 	//const char* table[] = {"TableStr1", "TableStr22", "TableStr333"};
-	extern char* lookup_table[];
+	//extern char* lookup_table[];
+	extern char* lookup_table_compressed[];
 	
 	void printFunc(const char* val)
 	{
@@ -20,15 +21,35 @@ extern "C"
 		return "Thisstringwillwork";
 	}
 	
-	void tableLookupImpl(char* fill, int index)
+	// void tableLookupImpl(char* fill, int index)
+	// {
+		// char* lookup = lookup_table[index];
+		// while(*lookup != 0)
+		// //for(int i = 0; i < 5; i++)
+		// {
+			// *fill = *lookup;//65 + i;
+			// fill++;
+			// lookup++;
+		// }
+	// }
+	
+	void tableLookupSpaceImpl(char* fill, int words[], int wordCount)
 	{
-		char* lookup = lookup_table[index];
-		while(*lookup != 0)
-		//for(int i = 0; i < 5; i++)
+		for(int wordIndex = 0; wordIndex < wordCount; wordIndex++)
 		{
-			*fill = *lookup;//65 + i;
-			fill++;
-			lookup++;
+			char* currentWord = lookup_table_compressed[words[wordIndex]];
+			
+			if(wordIndex != 0)
+			{
+				*fill = ' ';
+				fill++;
+			}
+			while(*currentWord != 0)
+			{
+				*fill = *currentWord;
+				currentWord++;
+				fill++;
+			}
 		}
 	}
 }
@@ -44,6 +65,7 @@ int main() {
 		//printf("%s\n", getHWString());
 		//printf(": %d\n", count);
 		callPrint();
+		callPrint2();
 		//printf("Might work? %s\n", mightWork);
 		//printf("Const: %s\n", getConstHWString());
 		//printf("Goodstr: %s\n", getConstGoodString());

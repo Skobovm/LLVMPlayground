@@ -1,9 +1,7 @@
-//#include <stdio.h>
+
 #include "simple.h"
 
 const char* declaredString = "Declared String";
-//extern const char* lookup_table[];// = {"TableStr1", "TableStr22", "TableStr333"};
-//const char* lookup_table[];
 extern void tableLookupImpl(char* fill, int index);
 extern void tableLookupSpaceImpl(char* fill, int words[], int wordCount);
 
@@ -12,7 +10,6 @@ void addOne(int* i)
 	(*i)++;
 }
 
-//__attribute__((annotate("telemetry")))
 const char* getConstHWString(void)
 {
 	return declaredString;
@@ -21,11 +18,14 @@ const char* getConstHWString(void)
 void callPrint(void)
 {
 	printStuff("Anonymous String 1");
+	printStuff("Test 1");
+	//printStuff("Stuff");
 }
 
 void callPrint2(void)
 {
 	printStuff("Anonymous String 2");
+	//printStuff("Test 2");
 }
 
 void fakeFunc(void)
@@ -49,19 +49,7 @@ void tableLookupSpace(char* fill, int words[], int wordCount)
 	tableLookupSpaceImpl(fill, words, wordCount);
 }
 
-void tableLookup(char* fill, int index)
-{
-	tableLookupImpl(fill, index);
-}
-// TODO: this will need to change for real algo
 // void tableLookup(char* fill, int index)
 // {
-	// char* lookup = lookup_table[index];
-	// while(*lookup != 0)
-	// //for(int i = 0; i < 5; i++)
-	// {
-		// *fill = *lookup;//65 + i;
-		// fill++;
-		// lookup++;
-	// }
+	// tableLookupImpl(fill, index);
 // }
